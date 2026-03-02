@@ -35,12 +35,30 @@ if(strlen($password) < 6){
     exit;
 }
 
-
 if($gender == "Male"){
     $title = "Mr";
 }else{
     $title = "Miss";
 }
+$skills_string = "";
+
+if(!empty($skills)){
+    foreach($skills as $skill){
+        $skills_string = $skills_string . $skill . ",";
+    }
+}
+
+$data = $first_name . "|" .
+        $last_name . "|" .
+        $address . "|" .
+        $country . "|" .
+        $gender . "|" .
+        $skills_string . "|" .
+        $department . "\n";
+
+$fp = fopen("data.txt", "a");
+fwrite($fp, $data);
+fclose($fp);
 
 ?>
 
