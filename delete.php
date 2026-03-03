@@ -1,21 +1,15 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require "connection.php";
+
+if (!isset($_GET['id'])) {
+    echo "User not found";
+    exit;
+}
 
 $id = $_GET['id'];
 
-$lines = file("data.txt");
-
-unset($lines[$id]);
-
-$fp = fopen("data.txt", "w");
-
-foreach($lines as $line){
-    fwrite($fp, $line);
-}
-
-fclose($fp);
+$stmt = $connection->prepare("DELETE FROM emp WHERE id = ?");
+$stmt->execute([$id]);
 
 header("Location: list.php");
 exit;
-?>
