@@ -1,8 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-$lines = file("data.txt");
+require "connection.php";
 
 echo "<h2>All Users</h2>";
 
@@ -11,28 +8,26 @@ echo "<tr>
         <th>ID</th>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Country</th>
+        <th>Email</th>
+        <th>Address</th>
         <th>Actions</th>
       </tr>";
 
-$id = 0;
+$stmt = $connection->query("SELECT * FROM emp");
 
-foreach($lines as $line){
-
-    $data = explode("|", $line);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
     echo "<tr>";
-    echo "<td>".$id."</td>";
-    echo "<td>".$data[0]."</td>";
-    echo "<td>".$data[1]."</td>";
-    echo "<td>".$data[3]."</td>";
+    echo "<td>".$row['id']."</td>";
+    echo "<td>".$row['f_name']."</td>";
+    echo "<td>".$row['l_name']."</td>";
+    echo "<td>".$row['email']."</td>";
+    echo "<td>".$row['address']."</td>";
     echo "<td>
-            <a href='view.php?id=".$id."'>View</a> |
-            <a href='delete.php?id=".$id."'>Delete</a>
+            <a href='view.php?id=".$row['id']."'>View</a> |
+            <a href='delete.php?id=".$row['id']."'>Delete</a>
           </td>";
     echo "</tr>";
-
-    $id = $id + 1;
 }
 
 echo "</table>";
