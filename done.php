@@ -1,6 +1,9 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+require "connection.php";
+
 $first_name = $_POST['first_name'];
 $last_name  = $_POST['last_name'];
 $address    = $_POST['address'];
@@ -41,25 +44,19 @@ if($gender == "Male"){
 }else{
     $title = "Miss";
 }
-$skills_string = "";
 
-if(!empty($skills)){
-    foreach($skills as $skill){
-        $skills_string = $skills_string . $skill . ",";
-    }
-}
 
-$data = $first_name . "|" .
-        $last_name . "|" .
-        $address . "|" .
-        $country . "|" .
-        $gender . "|" .
-        $skills_string . "|" .
-        $department . "\n";
 
-$fp = fopen("data.txt", "a");
-fwrite($fp, $data);
-fclose($fp);
+$stmt = $connection->prepare(
+    "INSERT INTO emp (f_name, l_name, email, address) VALUES (?, ?, ?, ?)"
+);
+
+$stmt->execute([
+    $first_name,
+    $last_name,
+    $first_name . "@mail.com", // مؤقت لحد ما نضيف email للفورم
+    $address
+]);
 
 ?>
 
