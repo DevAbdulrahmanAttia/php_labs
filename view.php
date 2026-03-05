@@ -1,24 +1,29 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require "connection.php";
+
+if (!isset($_GET['id'])) {
+    echo "User not found";
+    exit;
+}
 
 $id = $_GET['id'];
 
-$lines = file("data.txt");
+$stmt = $connection->prepare("SELECT * FROM emp WHERE id = ?");
+$stmt->execute([$id]);
 
-$line = $lines[$id];
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$data = explode("|", $line);
-
-echo "<h2>User Details</h2>";
-
-echo "First Name: " . $data[0] . "<br>";
-echo "Last Name: " . $data[1] . "<br>";
-echo "Address: " . $data[2] . "<br>";
-echo "Country: " . $data[3] . "<br>";
-echo "Gender: " . $data[4] . "<br>";
-echo "Skills: " . $data[5] . "<br>";
-echo "Department: " . $data[6] . "<br>";
-
-echo "<br><a href='list.php'>Back</a>";
+if (!$user) {
+    echo "User not found";
+    exit;
+}
 ?>
+
+<h2>User Details</h2>
+
+<p>First Name: <?php echo $user['f_name']; ?></p>
+<p>Last Name: <?php echo $user['l_name']; ?></p>
+<p>Email: <?php echo $user['email']; ?></p>
+<p>Address: <?php echo $user['address']; ?></p>
+
+<a href="list.php">Back</a>
