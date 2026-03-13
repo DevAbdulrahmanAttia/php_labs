@@ -13,7 +13,6 @@ $skills     = $_POST['skills'];
 $department = $_POST['department'];
 $password   = $_POST['password'];
 
-
 if($first_name == ""){
     echo "<h3 style='color:red;'>First Name is required</h3>";
     exit;
@@ -39,13 +38,17 @@ if(strlen($password) < 6){
     exit;
 }
 
+
+if(!preg_match("/^[a-z0-9_]{8}$/", $password)){
+    echo "<h3 style='color:red;'>Password must be exactly 8 characters (a-z,0-9,_)</h3>";
+    exit;
+}
+
 if($gender == "Male"){
     $title = "Mr";
 }else{
     $title = "Miss";
 }
-
-
 
 $stmt = $connection->prepare(
     "INSERT INTO emp (f_name, l_name, email, address) VALUES (?, ?, ?, ?)"
@@ -54,10 +57,9 @@ $stmt = $connection->prepare(
 $stmt->execute([
     $first_name,
     $last_name,
-    $first_name . "@mail.com", // مؤقت لحد ما نضيف email للفورم
+    $first_name . "@mail.com",
     $address
 ]);
-
 ?>
 
 <!DOCTYPE html>

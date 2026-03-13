@@ -8,16 +8,16 @@
 <h2>Registration Form</h2>
 
 <form action="done.php" method="POST">
-<!-- test 1 -->
+
     <div>
         <label>First Name:</label>
-        <input type="text" name="first_name" required>
+        <input type="text" name="first_name" pattern="[A-Za-z]+" title="Only letters allowed" required>
     </div>
     <br>
 
     <div>
         <label>Last Name:</label>
-        <input type="text" name="last_name" required>
+        <input type="text" name="last_name" pattern="[A-Za-z]+" title="Only letters allowed" required>
     </div>
     <br>
 
@@ -48,17 +48,10 @@
     <div>
         <p>Skills:</p>
 
-        <input type="checkbox" id="php" name="skills[]" value="PHP">
-        <label for="php">PHP</label><br>
-
-        <input type="checkbox" id="mysql" name="skills[]" value="MySQL">
-        <label for="mysql">MySQL</label><br>
-
-        <input type="checkbox" id="j2se" name="skills[]" value="J2SE">
-        <label for="j2se">J2SE</label><br>
-
-        <input type="checkbox" id="postgresql" name="skills[]" value="PostgreSQL">
-        <label for="postgresql">PostgreSQL</label>
+        <input type="checkbox" name="skills[]" value="PHP"> PHP <br>
+        <input type="checkbox" name="skills[]" value="MySQL"> MySQL <br>
+        <input type="checkbox" name="skills[]" value="J2SE"> J2SE <br>
+        <input type="checkbox" name="skills[]" value="PostgreSQL"> PostgreSQL
     </div>
     <br>
 
@@ -70,7 +63,10 @@
 
     <div>
         <label>Password:</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password" 
+               pattern="[a-z0-9_]{8}" 
+               title="Password must be exactly 8 characters (a-z,0-9,_)" 
+               required>
     </div>
     <br>
 
