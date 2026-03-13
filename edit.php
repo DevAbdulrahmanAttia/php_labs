@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// Check if user is logged in
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit;
+}
+
 require "connection.php";
 
 $id = $_GET['id'];
@@ -15,6 +23,11 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     <title>Edit User</title>
 </head>
 <body>
+
+<div style='float:right;'>
+Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?> | 
+<a href='logout.php'>Logout</a>
+</div>
 
 <h2>Edit User</h2>
 
