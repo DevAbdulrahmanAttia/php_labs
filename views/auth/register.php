@@ -15,16 +15,27 @@
                 <div class="card-body p-4">
                     <h2 class="card-title mb-4">Registration Form</h2>
 
-                    <form action="done.php" method="POST" enctype="multipart/form-data">
+                    <?php if (!empty($error)): ?>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                    <?php endif; ?>
+
+                    <form action="index.php?route=auth/store" method="POST" enctype="multipart/form-data">
 
                         <div class="mb-3">
                             <label for="first_name" class="form-label">First Name:</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" pattern="[A-Za-z]+" title="Only letters allowed" required>
+                            <input type="text" class="form-control" id="first_name" name="first_name"
+                                   pattern="[A-Za-z]+" title="Only letters allowed" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Last Name:</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" pattern="[A-Za-z]+" title="Only letters allowed" required>
+                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                   pattern="[A-Za-z]+" title="Only letters allowed" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
 
                         <div class="mb-3">
@@ -49,7 +60,7 @@
                                 <label class="form-check-label" for="male">Male</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="female" name="gender" value="Female" required>
+                                <input class="form-check-input" type="radio" id="female" name="gender" value="Female">
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>
@@ -81,21 +92,17 @@
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password" 
-                                   pattern="[a-z0-9_]{8}" 
-                                   title="Password must be exactly 8 characters (a-z,0-9,_)" 
+                            <input type="password" class="form-control" id="password" name="password"
+                                   pattern="[a-z0-9_]{8}"
+                                   title="Password must be exactly 8 characters (a-z, 0-9, _)"
                                    required>
                             <small class="form-text text-muted">Must be exactly 8 characters (a-z, 0-9, _)</small>
                         </div>
 
                         <div class="mb-3">
                             <label for="department" class="form-label">Department:</label>
-                            <input type="text" class="form-control" id="department" name="department" value="OpenSource" readonly>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="code" class="form-label">Code Verification:</label>
-                            <input type="text" class="form-control" id="code" name="code" required>
+                            <input type="text" class="form-control" id="department" name="department"
+                                   value="OpenSource" readonly>
                         </div>
 
                         <div class="mb-4">
@@ -108,12 +115,12 @@
                             <button type="reset" class="btn btn-secondary">Reset</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-
                     </form>
 
                     <hr class="my-4">
-                    <p class="text-center text-muted">Already have an account?
-                        <a href="login.php" class="text-decoration-none">Login here</a>
+                    <p class="text-center text-muted">
+                        Already have an account?
+                        <a href="index.php?route=auth/login" class="text-decoration-none">Login here</a>
                     </p>
                 </div>
             </div>
