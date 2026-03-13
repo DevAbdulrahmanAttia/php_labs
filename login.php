@@ -41,36 +41,53 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Employee Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-<h2>Login</h2>
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-5">
+            <div class="card shadow-lg rounded-lg">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">Login</h2>
 
-<?php if($error){ ?>
+                    <?php if($error){ ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $error; ?>
+                        </div>
+                    <?php } ?>
 
-<p style="color:red;">
-<?php echo $error; ?>
-</p>
+                    <form method="POST">
 
-<?php } ?>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
 
-<form method="POST">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
 
-<label>Username</label>
-<br>
-<input type="text" name="username" required>
-<br><br>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
 
-<label>Password</label>
-<br>
-<input type="password" name="password" required>
-<br><br>
+                    </form>
 
-<button type="submit">Login</button>
+                    <hr class="my-4">
+                    <p class="text-center text-muted">Don't have an account?
+                        <a href="registration.php" class="text-decoration-none">Register here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</form>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
