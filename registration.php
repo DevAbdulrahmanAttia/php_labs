@@ -7,7 +7,7 @@
 
 <h2>Registration Form</h2>
 
-<form action="done.php" method="POST">
+<form action="done.php" method="POST" enctype="multipart/form-data">
 
     <div>
         <label>First Name:</label>
@@ -79,6 +79,13 @@
     <div>
         <label>Code Verification:</label>
         <input type="text" name="code" required>
+    </div>
+    <br>
+
+    <!-- NEW FIELD -->
+    <div>
+        <label>Profile Image:</label>
+        <input type="file" name="image" accept="image/*" required>
     </div>
     <br>
 

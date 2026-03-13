@@ -9,40 +9,52 @@ $last_name  = $_POST['last_name'];
 $address    = $_POST['address'];
 $country    = $_POST['country'];
 $gender     = $_POST['gender'];
-$skills     = $_POST['skills'];
+$skills     = $_POST['skills'] ?? [];
 $department = $_POST['department'];
+$username   = $_POST['username'];
 $password   = $_POST['password'];
 
-if($first_name == ""){
-    echo "<h3 style='color:red;'>First Name is required</h3>";
-    exit;
-}
-
-if($last_name == ""){
-    echo "<h3 style='color:red;'>Last Name is required</h3>";
-    exit;
-}
-
-if($address == ""){
-    echo "<h3 style='color:red;'>Address is required</h3>";
-    exit;
-}
-
-if($gender == ""){
-    echo "<h3 style='color:red;'>Gender is required</h3>";
-    exit;
-}
-
-if(strlen($password) < 6){
-    echo "<h3 style='color:red;'>Password must be at least 6 characters</h3>";
-    exit;
-}
-
+/* password validation */
 
 if(!preg_match("/^[a-z0-9_]{8}$/", $password)){
     echo "<h3 style='color:red;'>Password must be exactly 8 characters (a-z,0-9,_)</h3>";
     exit;
 }
+
+/* upload image */
+
+$image_name = "";
+
+if(isset($_FILES['image']) && $_FILES['image']['error'] == 0){
+
+    $allowed_types = ['image/jpeg','image/png'];
+    $max_size = 2 * 1024 * 1024; // 2MB
+
+    $file_type = $_FILES['image']['type'];
+    $file_size = $_FILES['image']['size'];
+
+    if(!in_array($file_type,$allowed_types)){
+        echo "<h3 style='color:red;'>Only JPG and PNG images are allowed</h3>";
+        exit;
+    }
+
+    if($file_size > $max_size){
+        echo "<h3 style='color:red;'>Image size must be less than 2MB</h3>";
+        exit;
+    }
+
+    $tmp_name = $_FILES['image']['tmp_name'];
+
+    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+    $image_name = uniqid() . "." . $extension;
+
+    $upload_path = "uploads/" . $image_name;
+
+    move_uploaded_file($tmp_name,$upload_path);
+}
+
+/* title */
 
 if($gender == "Male"){
     $title = "Mr";
@@ -50,23 +62,31 @@ if($gender == "Male"){
     $title = "Miss";
 }
 
+/* insert into database */
+
 $stmt = $connection->prepare(
-    "INSERT INTO emp (f_name, l_name, email, address) VALUES (?, ?, ?, ?)"
+"INSERT INTO emp (f_name, l_name, email, address, username, password, image)
+ VALUES (?, ?, ?, ?, ?, ?, ?)"
 );
 
 $stmt->execute([
     $first_name,
     $last_name,
     $first_name . "@mail.com",
-    $address
+    $address,
+    $username,
+    $password,
+    $image_name
 ]);
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Review</title>
+<title>Review</title>
 </head>
+
 <body>
 
 <h2>
@@ -78,21 +98,15 @@ echo "Thanks " . $title . " " . $first_name . " " . $last_name;
 <p><strong>Please Review Your Information:</strong></p>
 
 <p>
-<?php
-echo "Name: " . $first_name . " " . $last_name;
-?>
+<?php echo "Name: " . $first_name . " " . $last_name; ?>
 </p>
 
 <p>
-<?php
-echo "Address: " . $address;
-?>
+<?php echo "Address: " . $address; ?>
 </p>
 
 <p>
-<?php
-echo "Country: " . $country;
-?>
+<?php echo "Country: " . $country; ?>
 </p>
 
 <p>
@@ -109,10 +123,16 @@ if(!empty($skills)){
 </p>
 
 <p>
-<?php
-echo "Department: " . $department;
-?>
+<?php echo "Department: " . $department; ?>
 </p>
+
+<?php if($image_name != ""){ ?>
+
+<p>
+<img src="uploads/<?php echo $image_name; ?>" width="150">
+</p>
+
+<?php } ?>
 
 </body>
 </html>
