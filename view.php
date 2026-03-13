@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// Check if user is logged in
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit;
+}
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -9,6 +17,11 @@ $lines = file("data.txt");
 $line = $lines[$id];
 
 $data = explode("|", $line);
+
+echo "<div style='float:right;'>";
+echo "Welcome, " . htmlspecialchars($_SESSION['username']) . " | ";
+echo "<a href='logout.php'>Logout</a>";
+echo "</div>";
 
 echo "<h2>User Details</h2>";
 

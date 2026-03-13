@@ -1,5 +1,19 @@
 <?php
+session_start();
+
+// Check if user is logged in
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit;
+}
+
 require "connection.php";
+
+// Display welcome message and logout button
+echo "<div style='float:right;'>";
+echo "Welcome, " . htmlspecialchars($_SESSION['username']) . " | ";
+echo "<a href='logout.php'>Logout</a>";
+echo "</div>";
 
 echo "<h2>All Users</h2>";
 
