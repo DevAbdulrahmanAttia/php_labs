@@ -25,7 +25,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo "<td>".$row['address']."</td>";
     echo "<td>
             <a href='view.php?id=".$row['id']."'>View</a> |
-            <a href='delete.php?id=".$row['id']."'>Delete</a>
+            <a href='delete.php?id=".$row['id']."'>Delete</a> |
+            <a href='edit.php?id=".$row['id']."'>Edit</a>
           </td>";
     echo "</tr>";
 }
